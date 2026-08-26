@@ -11,22 +11,22 @@ The target loop is:
 ## Current state
 
 ### v0.1 — parameter discovery
-
 Virgin.IA optimizes parameters of a QAOA circuit on a small MaxCut benchmark.
 
 ### v0.2 — architecture discovery
-
-Virgin.IA searches the **circuit structure itself**. Candidate architectures are represented as gate genes and evolved through selection and mutation. Mutations can change gate type, qubit placement, rotation angle, insert gates, or delete gates.
-
-The objective combines solution quality with a circuit-cost penalty, so the search is not simply looking for any high-scoring circuit: it also prefers cheaper candidates.
+Virgin.IA searches the circuit structure itself. Candidate architectures are represented as gate genes and evolved through selection and mutation.
 
 ### v0.3 — meta-strategy discovery
+Virgin.IA compares different circuit initialization strategies and evolves each strategy independently before selecting the strongest result.
 
-Virgin.IA can now compare different circuit initialization strategies and evolve each strategy independently before selecting the strongest resulting architecture. This is the first layer above individual circuit search: Virgin.IA is beginning to search **how to search**.
+### v0.4 — formulation layer
+Virgin.IA now has a first problem-to-quantum formulation layer. Supported binary problems can be translated into a QUBO-style representation, creating the bridge between a user-defined objective and the circuit-discovery engine.
 
 ## Structure
 
 - `virgin_ia/problems.py` — problem definitions and benchmarks
+- `virgin_ia/formulation.py` — binary/QUBO formulation
+- `virgin_ia/problem_parser.py` — problem-to-formulation adapters
 - `virgin_ia/circuits.py` — QAOA circuit generation
 - `virgin_ia/architecture.py` — circuit genome and mutations
 - `virgin_ia/architectural_search.py` — evolutionary topology search
@@ -50,8 +50,8 @@ pytest
 1. Parameter optimization — implemented
 2. Architecture/gate discovery — implemented
 3. Multi-strategy search — initial implementation
-4. General problem-to-Hamiltonian/formulation layer
-5. Experiment database and learned search policy
-6. Hardware-aware cost model and real quantum backends
-7. Benchmark against classical and established quantum methods
+4. Problem formulation layer — initial implementation
+5. Automatic QUBO/Ising → Hamiltonian conversion
+6. Experiment database and learned search policy
+7. Hardware-aware cost model and real quantum backends
 8. User-defined problem → automatically discovered quantum circuit
