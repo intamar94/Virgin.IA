@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "virgin-ia"
+version = "0.1.0"
+description = "Automated discovery of optimized quantum circuits"
+requires-python = ">=3.11"
+dependencies = [
+  "qiskit>=2.1,<3",
+  "qiskit-aer>=0.17,<1",
+  "numpy>=2.0,<3",
+  "scipy>=1.13,<2",
+]
+
+[tool.setuptools.packages.find]
+include = ["virgin_ia*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
