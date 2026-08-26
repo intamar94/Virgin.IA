@@ -1,12 +1,20 @@
+from .architectural_search import ArchitectureDiscovery
 from .discovery import CircuitDiscovery
+from .problems import maxcut_triangle
 
 
 if __name__ == "__main__":
-    result = CircuitDiscovery().discover()
-    print("Virgin.IA v0.1")
-    print(f"layers: {result.layers}")
-    print(f"gammas: {result.gammas}")
-    print(f"betas: {result.betas}")
-    print(f"best score: {result.evaluation.best_score}")
-    print(f"expected score: {result.evaluation.expected_score:.4f}")
-    print(f"reward: {result.reward:.4f}")
+    problem = maxcut_triangle()
+
+    parameter_result = CircuitDiscovery().discover(problem, layers=1)
+    print("Virgin.IA v0.1 — parameter discovery")
+    print(f"best score: {parameter_result.evaluation.best_score}")
+    print(f"expected score: {parameter_result.evaluation.expected_score:.4f}")
+    print(f"reward: {parameter_result.reward:.4f}")
+
+    architecture_result = ArchitectureDiscovery().discover(problem)
+    print("\nVirgin.IA v0.2 — architecture discovery")
+    print(f"gates: {len(architecture_result.architecture.genes)}")
+    print(f"best score: {architecture_result.evaluation.best_score}")
+    print(f"expected score: {architecture_result.evaluation.expected_score:.4f}")
+    print(f"reward: {architecture_result.reward:.4f}")
