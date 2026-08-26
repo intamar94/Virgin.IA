@@ -1,36 +1,35 @@
 # Virgin.IA
 
-Virgin.IA is an experimental system for **automatic discovery and optimization of quantum circuits** for problems defined by the user.
+## Objective
+
+Virgin.IA is an experimental system for **automatically discovering and optimizing quantum circuits** for problems defined by the user.
+
+The target loop is:
+
+**problem → formulation → strategy search → circuit generation → simulation → evaluation → mutation/optimization → learning → final circuit**
 
 ## Current state
 
 ### v0.1 — parameter discovery
 
-Given a circuit family (currently QAOA), Virgin.IA automatically searches its continuous parameters and evaluates the resulting quantum behavior.
+Virgin.IA can optimize parameters of a QAOA circuit on a small MaxCut benchmark.
 
 ### v0.2 — architecture discovery
 
-Virgin.IA now also searches the **structure** of a circuit. Candidate architectures can mutate their gate type, qubit assignment, rotation angle, insertion and deletion of operations. An evolutionary search keeps higher-reward candidates and generates new variants.
+Virgin.IA now searches the **circuit structure itself**. Candidate architectures are represented as gate genes and evolved through selection and mutation. Mutations can change gate type, qubit placement, rotation angle, insert gates, or delete gates.
 
-The current benchmark is a 3-node MaxCut problem executed entirely on a local simulator.
-
-## Core loop
-
-**problem → candidate circuit → simulation → measurement → evaluation → reward → mutation/optimization → candidate circuit**
-
-The long-term objective is to replace manually selected circuit architectures with an autonomous discovery process.
+The objective combines solution quality with a circuit-cost penalty, so the search is not simply looking for any high-scoring circuit: it also prefers cheaper candidates.
 
 ## Structure
 
 - `virgin_ia/problems.py` — problem definitions and benchmarks
 - `virgin_ia/circuits.py` — QAOA circuit generation
-- `virgin_ia/architecture.py` — circuit genome, construction and mutations
+- `virgin_ia/architecture.py` — circuit genome and mutations
+- `virgin_ia/architectural_search.py` — evolutionary topology search
+- `virgin_ia/discovery.py` — parameter optimization
 - `virgin_ia/simulator.py` — local quantum simulation
 - `virgin_ia/evaluator.py` — measurement evaluation and reward
-- `virgin_ia/discovery.py` — parameter optimization
-- `virgin_ia/architectural_search.py` — evolutionary architecture search
 - `tests/` — regression tests
-- `.github/workflows/ci.yml` — automated test workflow
 
 ## Run
 
@@ -42,11 +41,11 @@ pytest
 
 ## Roadmap
 
-1. Parameter discovery — implemented
-2. Architecture discovery — implemented as first evolutionary prototype
-3. Multi-family algorithm discovery
-4. Better multi-objective fitness: solution quality, gates, depth, connectivity and robustness
-5. Persistent experiment database and learned search policy
-6. Hardware-aware compilation and noise-aware optimization
-7. Real quantum hardware backends
-8. User-defined problem → automatic formulation → circuit discovery
+1. Parameter optimization — implemented
+2. Architecture/gate discovery — implemented
+3. Multi-strategy search (QAOA, VQE, variational circuits, custom ansätze)
+4. General problem-to-Hamiltonian/formulation layer
+5. Experiment database and learned search policy
+6. Hardware-aware cost model and real quantum backends
+7. Benchmark against classical and established quantum methods
+8. User-defined problem → automatically discovered quantum circuit
