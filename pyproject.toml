@@ -22,4 +22,4 @@ include = ["virgin_ia*"]
 testpaths = ["tests"]
 
 [tool.vercel]
-entrypoint = "api/index.py"
+entrypoint = "api.index:app"
